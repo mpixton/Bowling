@@ -26,10 +26,14 @@ namespace Bowling
         {
             services.AddControllersWithViews();
 
+            // Add DbContext to the Project.
             services.AddDbContext<BowlingDbContext>(options =>
             {
                 options.UseSqlite(Configuration["ConnectionStrings:BowlingConnection"]);
             });
+
+            // Provide the UnitOfWork to the Dependecy Injection container.
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,11 +53,33 @@ namespace Bowling
 
             app.UseAuthorization();
 
+            // Map new routes.
             app.UseEndpoints(endpoints =>
             {
+                // Route if just the page is provided.
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    name: "page",
+                    pattern: "Bowlers/{pageNum}",
+                    new {Controller = "Home", action ="Index"}
+                    );
+                // Route if just the team is provided.
+                endpoints.MapControllerRoute(
+                    name: "team",
+                    pattern: "{team}",
+                    new {Controller = "Home", action = "Index"}
+                    );
+                // Route is both parameters are provided.
+                endpoints.MapControllerRoute(
+                    name: "teamAndPage",
+                    pattern: "{team}/{pageNum}",
+                    new {Controller = "Home", action = "Index"}
+                    );
+                // Route for the home page.
+                endpoints.MapControllerRoute(
+                    name: "home",
+                    pattern: "",
+                    new {Controller = "Home", action = "Index"}
+                    );
             });
         }
     }

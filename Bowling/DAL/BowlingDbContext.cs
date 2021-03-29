@@ -7,6 +7,9 @@ using Bowling.Models;
 
 namespace Bowling.DAL
 {
+    /// <summary>
+    /// DbContext provided by scaffolding.
+    /// </summary>
     public partial class BowlingDbContext : DbContext
     {
         public BowlingDbContext()
@@ -19,13 +22,21 @@ namespace Bowling.DAL
         }
 
         public virtual DbSet<Bowler> Bowlers { get; set; }
+
         public virtual DbSet<BowlerScore> BowlerScores { get; set; }
+
         public virtual DbSet<MatchGame> MatchGames { get; set; }
+
         public virtual DbSet<Team> Teams { get; set; }
+
         public virtual DbSet<Tournament> Tournaments { get; set; }
+
         public virtual DbSet<TourneyMatch> TourneyMatches { get; set; }
+
         public virtual DbSet<ZtblBowlerRating> ZtblBowlerRatings { get; set; }
+
         public virtual DbSet<ZtblSkipLabel> ZtblSkipLabels { get; set; }
+
         public virtual DbSet<ZtblWeek> ZtblWeeks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
